@@ -79,22 +79,6 @@ const query_issue = {
 	}`,
 };
 
-const query_org = {
-  query: `query{
-	user(login: "${openSource.githubUserName}") {
-	    repositoriesContributedTo(last: 100){
-	      totalCount
-	      nodes{
-	        owner{
-	          login
-	          avatarUrl
-	          __typename
-	        }
-	      }
-	    }
-	  }
-	}`,
-};
 
 const query_pinned_projects = {
   query: `
@@ -203,44 +187,7 @@ fetch(baseUrl, {
   })
   .catch((error) => console.log(JSON.stringify(error)));
 
-fetch(baseUrl, {
-  method: "POST",
-  headers: headers,
-  body: JSON.stringify(query_org),
-})
-  .then((response) => response.text())
-  .then((txt) => {
-    const data = JSON.parse(txt);
-    const orgs = data["data"]["user"]["repositoriesContributedTo"]["nodes"];
-    var newOrgs = { data: [] };
-    for (var i = 0; i < orgs.length; i++) {
-      var obj = orgs[i]["owner"];
-      if (obj["__typename"] === "Organization") {
-        var flag = 0;
-        for (var j = 0; j < newOrgs["data"].length; j++) {
-          if (JSON.stringify(obj) === JSON.stringify(newOrgs["data"][j])) {
-            flag = 1;
-            break;
-          }
-        }
-        if (flag === 0) {
-          newOrgs["data"].push(obj);
-        }
-      }
-    }
 
-    console.log("Fetching the Contributed Organization Data.\n");
-    fs.writeFile(
-      "./src/shared/opensource/organizations.json",
-      JSON.stringify(newOrgs),
-      function (err) {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-  })
-  .catch((error) => console.log(JSON.stringify(error)));
 
 const languages_icons = {
   Python: "logos-python",
