@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 
 const openSource = {
-  githubConvertedToken: "Your Github Token Here",
+  githubConvertedToken: `${process.env.PAT}`,
   githubUserName: "Your Github Username Here",
 };
 
