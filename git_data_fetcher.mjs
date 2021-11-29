@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const openSource = {
   githubConvertedToken: `${process.env.PAT}`,
-  githubUserName: "Your Github Username Here",
+  githubUserName: "MuhammadZeeshanAshraf",
 };
 
 const query_pr = {
